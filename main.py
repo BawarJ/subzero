@@ -1,7 +1,7 @@
 import pygame, os, sys, random
 from math import cos
 from pygame.locals import *
-import RPi.GPIO as GPIO
+#import RPi.GPIO as GPIO
 
 FPS = 60
 WINDOWWIDTH = 800
@@ -24,7 +24,7 @@ def main():
 	# size
 	# direction
 	# type
-	# addition
+	# additio
 	# color
 	
 	particles = 240
@@ -63,8 +63,7 @@ def main():
 				pygame.quit()
 				sys.exit()
 			if event.type == MOUSEMOTION:
-				mouse_x, mouse_y = event.pos
-		# Fill the Display for new objects to be drawn
+				mouse_x, mouse_y = event.pos		# Fill the Display for new objects to be drawn
 		DISPLAYSURF.fill((0, 0, 0))
 		# Draw Elements
 		for element in range(len(particle_xysize)):
