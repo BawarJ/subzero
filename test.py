@@ -3,6 +3,7 @@ from pygame.locals import *
 from pygame.mixer import Channel, Sound, get_init, pre_init
 from array import array
 from time import sleep
+import RPi.GPIO as GPIO
 
 # class Note(Sound):
 
@@ -21,6 +22,14 @@ from time import sleep
     #         else:
     #             samples[time] = -amplitude
     #     return samples
+
+GPIO.setmode(GPIO.BCM)
+
+GPIO.setup(2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(3, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(4, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(14, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
 
 pygame.init()
 DISPLAYSURF = pygame.display.set_mode((400,300))
@@ -42,28 +51,29 @@ while True:
 
     pressed = pygame.key.get_pressed()
     
-    if pressed[pygame.K_q]:
+    if (pressed[pygame.K_q] or not(GPIO.input(2))):
         pygame.mixer.Channel(1).queue(C1)
     else:
     	pygame.mixer.Channel(1).fadeout(500)
 
-    if pressed[pygame.K_w]:
+    if (pressed[pygame.K_w] or not(GPIO.input(3))):
         pygame.mixer.Channel(2).queue(C2)
     else:
     	pygame.mixer.Channel(2).fadeout(500)
 
-    if pressed[pygame.K_e]:
+    if (pressed[pygame.K_e] or not(GPIO.input(4))):
         pygame.mixer.Channel(3).queue(C3)
     else:
     	pygame.mixer.Channel(3).fadeout(500)
 
-    if pressed[pygame.K_r]:
+    if (pressed[pygame.K_r] or not(GPIO.input(14))):
         pygame.mixer.Channel(4).queue(C4)
     else:
     	pygame.mixer.Channel(4).fadeout(500)
 
     for event in pygame.event.get():
         if event.type == QUIT:
+            GPIO.cleanup()
             pygame.quit()
             sys.exit()
     pygame.display.update()
